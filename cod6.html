@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Board Website</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+    color:#333;
+}
+header{
+    background:#2563eb;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+header h1{
+    margin-bottom:10px;
+    font-size:32px;
+}
+
+header p{
+    margin-bottom:15px;
+}
+
+nav{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+nav button{
+    background:white;
+    color:#2563eb;
+    border:none;
+    padding:10px 18px;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.3s;
+}
+
+nav button:hover{
+    background:#dbeafe;
+}
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:30px auto;
+}
+.card{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 5px 12px rgba(0,0,0,.1);
+}
+.card h2{
+    color:#2563eb;
+    margin-bottom:15px;
+}
+
+.card h3{
+    margin-top:15px;
+    margin-bottom:10px;
+}
+input,
+textarea,
+select{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:16px;
+}
+
+textarea{
+    resize:none;
+    min-height:120px;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    outline:none;
+    border-color:#2563eb;
+}
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:.3s;
+    font-size:16px;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+.job-card{
+    border:1px solid #ddd;
+    padding:20px;
+    border-radius:8px;
+    margin-top:20px;
+    background:#fafafa;
+    transition:.3s;
+}
+
+.job-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 15px rgba(0,0,0,.12);
+}
+
+.job-card h3{
+    color:#2563eb;
+    margin-bottom:10px;
+}
+
+.job-card p{
+    margin:8px 0;
+}
+
+.job-card button{
+    margin-right:10px;
+    margin-top:10px;
+}
+#search{
+    margin-bottom:20px;
+}
+#welcome{
+    margin-top:15px;
+    color:green;
+    font-weight:bold;
+}
+#appliedJobs{
+    margin-top:15px;
+}
+
+.application{
+    background:#eef4ff;
+    padding:15px;
+    border-radius:8px;
+    margin-top:15px;
+}
+footer{
+    background:#2563eb;
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:30px;
+}
+.hidden{
+    display:none;
+}
+
+.success{
+    color:green;
+    font-weight:bold;
+}
+
+.error{
+    color:red;
+    font-weight:bold;
+}
+
+@media(max-width:768px){
+
+header h1{
+    font-size:24px;
+}
+
+nav{
+    flex-direction:column;
+}
+
+nav button{
+    width:100%;
+}
+
+.container{
+    width:95%;
+}
+
+button{
+    width:100%;
+    margin-top:10px;
+}
+
+.job-card button{
+    width:100%;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>Job Board Portal</h1>
+
+<p>Find Your Dream Job</p>
+
+<nav>
+
+<button onclick="showSection('home')">Home</button>
+
+<button onclick="showSection('jobs')">Jobs</button>
+
+<button onclick="showSection('employer')">Employer</button>
+
+<button onclick="showSection('candidate')">Candidate</button>
+
+<button onclick="showSection('login')">Login</button>
+
+</nav>
+
+</header>
+
+<div class="container">
+
+<!-- Home -->
+
+<section id="home" class="card">
+
+<h2>Welcome</h2>
+
+<p>
+
+Search thousands of jobs posted by employers.
+
+Apply easily and track your applications.
+
+</p>
+
+<img
+src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900"
+width="100%"
+style="border-radius:10px; margin-top:15px;"
+>
+
+</section>
+
+<!-- Login -->
+
+<section id="login" class="card" style="display:none;">
+
+<h2>Login / Register</h2>
+
+<input
+type="text"
+id="username"
+placeholder="Username">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<select id="role">
+
+<option value="candidate">Candidate</option>
+
+<option value="employer">Employer</option>
+
+</select>
+
+<button onclick="registerUser()">
+
+Register
+
+</button>
+
+<button onclick="loginUser()">
+
+Login
+
+</button>
+
+<p id="welcome"></p>
+
+</section>
+
+<!-- Employer -->
+
+<section id="employer" class="card" style="display:none;">
+
+<h2>Employer Dashboard</h2>
+
+<input
+type="text"
+id="jobTitle"
+placeholder="Job Title">
+
+<input
+type="text"
+id="company"
+placeholder="Company">
+
+<input
+type="text"
+id="location"
+placeholder="Location">
+
+<input
+type="number"
+id="salary"
+placeholder="Salary">
+
+<textarea
+id="description"
+placeholder="Job Description">
+</textarea>
+
+<button onclick="postJob()">
+
+Post Job
+
+</button>
+
+</section>
+<section id="jobs" class="card" style="display:none;">
+
+<h2>Available Jobs</h2>
+
+<input
+type="text"
+id="search"
+placeholder="Search Jobs..."
+onkeyup="searchJobs()">
+
+<div id="jobList">
+
+</div>
+
+</section>
+
+<section id="candidate" class="card" style="display:none;">
+
+<h2>Candidate Dashboard</h2>
+
+<h3>Applied Jobs</h3>
+
+<div id="appliedJobs">
+
+No Applications Yet
+
+</div>
+
+</section>
+<section id="details" class="card" style="display:none;">
+
+<h2>Job Details</h2>
+
+<div id="jobDetails"></div>
+
+</section>
+
+</div>
+
+<footer>
+
+<p>
+
+© 2026 Job Board Website
+
+</p>
+
+</footer>
+
+<script>
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+let applications = JSON.parse(localStorage.getItem("applications")) || [];
+
+let currentUser = null;
+function saveData() {
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("jobs", JSON.stringify(jobs));
+    localStorage.setItem("applications", JSON.stringify(applications));
+}
+function showSection(sectionId) {
+
+    const sections = document.querySelectorAll(".card");
+
+    sections.forEach(section => {
+        section.style.display = "none";
+    });
+
+    document.getElementById(sectionId).style.display = "block";
+
+    if(sectionId === "jobs"){
+        displayJobs();
+    }
+
+    if(sectionId === "candidate"){
+        loadApplications();
+    }
+
+}
+function registerUser(){
+
+    const username =
+    document.getElementById("username").value.trim();
+
+    const password =
+    document.getElementById("password").value.trim();
+
+    const role =
+    document.getElementById("role").value;
+
+    if(username === "" || password === ""){
+        alert("Please fill all fields.");
+        return;
+    }
+
+    const exists =
+    users.find(user => user.username === username);
+
+    if(exists){
+        alert("Username already exists.");
+        return;
+    }
+
+    users.push({
+        username,
+        password,
+        role
+    });
+
+    saveData();
+
+    alert("Registration Successful");
+
+}
+function loginUser(){
+
+    const username =
+    document.getElementById("username").value.trim();
+
+    const password =
+    document.getElementById("password").value.trim();
+
+    const user =
+    users.find(u =>
+        u.username === username &&
+        u.password === password
+    );
+
+    if(!user){
+        alert("Invalid Username or Password");
+        return;
+    }
+
+    currentUser = user;
+
+    document.getElementById("welcome").innerHTML =
+    "Welcome " + user.username +
+    " (" + user.role + ")";
+
+    alert("Login Successful");
+
+    if(user.role === "employer"){
+        showSection("employer");
+    }else{
+        showSection("candidate");
+    }
+}
+
+function postJob(){
+
+    if(!currentUser){
+        alert("Please Login");
+        return;
+    }
+
+    if(currentUser.role !== "employer"){
+        alert("Only Employers can post jobs.");
+        return;
+    }
+
+    const title =
+    document.getElementById("jobTitle").value;
+
+    const company =
+    document.getElementById("company").value;
+
+    const location =
+    document.getElementById("location").value;
+
+    const salary =
+    document.getElementById("salary").value;
+
+    const description =
+    document.getElementById("description").value;
+
+    if(
+        title==="" ||
+        company==="" ||
+        location==="" ||
+        salary==="" ||
+        description===""){
+            alert("Fill all fields");
+            return;
+        }
+
+    jobs.push({
+
+        id:Date.now(),
+
+        title,
+
+        company,
+
+        location,
+
+        salary,
+
+        description,
+
+        employer:currentUser.username
+
+    });
+
+    saveData();
+
+    alert("Job Posted Successfully");
+
+    document.getElementById("jobTitle").value="";
+    document.getElementById("company").value="";
+    document.getElementById("location").value="";
+    document.getElementById("salary").value="";
+    document.getElementById("description").value="";
+
+}
+function displayJobs(){
+
+    const list =
+    document.getElementById("jobList");
+
+    list.innerHTML = "";
+
+    if(jobs.length===0){
+
+        list.innerHTML =
+        "<h3>No Jobs Available</h3>";
+
+        return;
+
+    }
+
+    jobs.forEach(job=>{
+
+        list.innerHTML +=
+
+        `
+        <div class="job-card">
+
+        <h3>${job.title}</h3>
+
+        <p><b>Company:</b> ${job.company}</p>
+
+        <p><b>Location:</b> ${job.location}</p>
+
+        <p><b>Salary:</b> ₹${job.salary}</p>
+
+        <button onclick="viewJob(${job.id})">
+        View Details
+        </button>
+
+        <button onclick="applyJob(${job.id})">
+        Apply
+        </button>
+
+        </div>
+
+        `;
+
+    });
+
+}
+function viewJob(id){
+
+    const job = jobs.find(j => j.id === id);
+
+    if(!job) return;
+
+    document.getElementById("jobDetails").innerHTML = `
+        <h2>${job.title}</h2>
+
+        <p><strong>Company:</strong> ${job.company}</p>
+
+        <p><strong>Location:</strong> ${job.location}</p>
+
+        <p><strong>Salary:</strong> ₹${job.salary}</p>
+
+        <p><strong>Description:</strong></p>
+
+        <p>${job.description}</p>
+
+        <button onclick="applyJob(${job.id})">
+            Apply Now
+        </button>
+    `;
+
+    showSection("details");
+
+}
+function applyJob(id){
+
+    if(!currentUser){
+        alert("Please Login First");
+        return;
+    }
+
+    if(currentUser.role !== "candidate"){
+        alert("Only Candidates can Apply");
+        return;
+    }
+
+    const job = jobs.find(j => j.id === id);
+
+    if(!job) return;
+
+    const alreadyApplied = applications.find(app =>
+        app.jobId === id &&
+        app.username === currentUser.username
+    );
+
+    if(alreadyApplied){
+        alert("You have already applied for this job.");
+        return;
+    }
+
+    applications.push({
+
+        jobId:id,
+
+        username:currentUser.username,
+
+        title:job.title,
+
+        company:job.company,
+
+        status:"Applied"
+
+    });
+
+    saveData();
+
+    alert("Application Submitted Successfully");
+
+}
+function loadApplications(){
+
+    const container =
+    document.getElementById("appliedJobs");
+
+    if(!currentUser){
+
+        container.innerHTML = "Please Login";
+
+        return;
+
+    }
+
+    const myApplications =
+    applications.filter(app =>
+        app.username === currentUser.username
+    );
+
+    if(myApplications.length === 0){
+
+        container.innerHTML =
+        "<p>No Applications Yet</p>";
+
+        return;
+
+    }
+
+    container.innerHTML = "";
+
+    myApplications.forEach(app=>{
+
+        container.innerHTML += `
+
+        <div class="application">
+
+            <h3>${app.title}</h3>
+
+            <p><strong>Company:</strong> ${app.company}</p>
+
+            <p><strong>Status:</strong> ${app.status}</p>
+
+        </div>
+
+        `;
+
+    });
+
+}
+function searchJobs(){
+
+    const keyword =
+    document.getElementById("search")
+    .value
+    .toLowerCase();
+
+    const list =
+    document.getElementById("jobList");
+
+    list.innerHTML = "";
+
+    const filtered =
+    jobs.filter(job =>
+
+        job.title.toLowerCase().includes(keyword) ||
+
+        job.company.toLowerCase().includes(keyword) ||
+
+        job.location.toLowerCase().includes(keyword)
+
+    );
+
+    if(filtered.length === 0){
+
+        list.innerHTML =
+        "<h3>No Matching Jobs Found</h3>";
+
+        return;
+
+    }
+
+    filtered.forEach(job=>{
+
+        list.innerHTML += `
+
+        <div class="job-card">
+
+            <h3>${job.title}</h3>
+
+            <p><strong>Company:</strong> ${job.company}</p>
+
+            <p><strong>Location:</strong> ${job.location}</p>
+
+            <p><strong>Salary:</strong> ₹${job.salary}</p>
+
+            <button onclick="viewJob(${job.id})">
+                View Details
+            </button>
+
+            <button onclick="applyJob(${job.id})">
+                Apply
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+}
+function logout(){
+
+    currentUser = null;
+
+    document.getElementById("welcome").innerHTML = "";
+
+    alert("Logged Out Successfully");
+
+    showSection("home");
+
+}
+window.onload = function(){
+
+    showSection("home");
+
+    displayJobs();
+
+};
+</script>
+
+</body>
+</html>
